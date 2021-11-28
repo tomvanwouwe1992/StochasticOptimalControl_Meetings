@@ -8,7 +8,7 @@ clear all; close all; clc;
 % Monte Carlo simulations (nr_sim simulations). We use a simple forward Euler
 % integration scheme with a timestep of 10ms.
 T = 10; dt = 0.01; N = ceil(T/dt); t = 0:dt:T;
-m = 1; nr_sim = 10000; plotted_index = ceil(nr_sim/20);
+m = 1; nr_sim = 100; plotted_index = ceil(nr_sim/20);
 x_sim = NaN(nr_sim,N+1); x_sim(:,1) = 0;
 xdot_sim = NaN(nr_sim,N+1); xdot_sim(:,1) = 0;
 F_var_spectral = 1; % 1 N².t
