@@ -1,7 +1,7 @@
 clear all; clc; close all;
 
 import casadi.*
-dt = 0.001; T = 10; t = 0:dt:T;
+dt = 0.00001; T = 10; t = 0:dt:T;
 N = round(T/dt);
 
 
@@ -26,14 +26,23 @@ fcn_C = Function('fcn_C',{x_mean,F,w,K,B},{jacobian(x_mean_dot,w)});
 
 P_0 = 1e-6*eye(2); % small initial uncertainty
 
-
+P = NaN(2,2,N+1);
+P(:,:,1) = P_0;
 % Simulate P forward for upright position and visualize
-Pdot = 
+A = full(fcn_A([pi;0],0,0,0,0));
+for i = 1:N
+Pdot = A*P(:,:,i) + P(:,:,i)*A'; % + C*0.01*C';
 P(:,:,i+1) = P(:,:,i) + dt*Pdot;
-
+end
 % Simulate P forward for downward position and visualize
 
 
 
 %Plot variance position and velocity
-
+figure()
+subplot(3,1,1)
+plot(t,squeeze(sqrt(P(1,1,:))));
+subplot(3,1,2)
+plot(t,squeeze(sqrt(P(2,2,:))));
+subplot(3,1,3)
+plot(t,squeeze((P(1,2,:)./(sqrt(P(1,1,:)).*sqrt(P(2,2,:))))));

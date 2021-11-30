@@ -69,7 +69,7 @@ for noise_factor = 1:7
         DG_DZ = DG_DZ_Trapezoidal(A_k_next,dt);
         M_k = (DG_DZ)^(-1);
         % - integration step
-        P_k = M_k*(DG_DX*P_k*DG_DX' + DG_DW*sigma_w*DG_DW')*M_k';
+        P_k = M_k*(DG_DX*reshape(Pvar(:,i))*DG_DX' + DG_DW*sigma_w*DG_DW')*M_k';
         opti.subject_to(Pvar(:,i+1) == P_k(:));
         
         % expected effort
